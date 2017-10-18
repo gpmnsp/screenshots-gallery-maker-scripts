@@ -73,4 +73,4 @@ To make screensheets without timecode just change the command line in the script
 ---
 Example of screenshot gallery page
 
-![Example of screenshot gallery page](-stub-)
+![Example of screenshot gallery page](https://user-images.githubusercontent.com/23389748/31731887-cd9bf856-b436-11e7-90b1-efb2f713a074.jpg)
