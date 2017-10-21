@@ -32,7 +32,7 @@ So here I used 'Imagemagick' and 'bc' for better results and flexibility and bec
   OUTPUT is the output file name, default is <INPUT_NAME>_preview.jpg.
 
    Example 1: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg
-   Example 2: make-screens.sh movie.avi
+   Example 2: make-screens.sh movie.avi 4
 ~~~
 The default format is JPG. You have to edit the script for alteration.  
 
