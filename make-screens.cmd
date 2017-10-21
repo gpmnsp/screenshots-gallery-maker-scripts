@@ -173,7 +173,7 @@ for /F "tokens=1,2,3,4 delims=:."  %%a in ("%first_part%") do (
 set /a DUR=%hour%*60*60+%minute%*60+%second%
 set decsec=%decsec:~0,2%
 if %decsec% GEQ 50 (
-    set /a decsec=%DUR%+1 )
+    set /a DUR=%DUR%+1 )
 
 
 :CONTIN2
