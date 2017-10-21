@@ -19,8 +19,8 @@ Uses 'bc' (to properly round integers) and the 'montage' and 'convert' tools fro
 One could get almost the same output with only bash and ffmpeg's drawtext+tile+scale filters, though.  
 But quoting/escaping in ffmpeg is a nightmare.  
 So here I used 'Imagemagick' and 'bc' for better results and flexibility and because I'm lazy ;-)
+Command line usage: 
 ~~~
-  Command line usage: 
   make-screens.sh INPUT [COLUMNS (6)] [ROWS (5)] [SIZE (3000)] [OUTPUT]
 
   INPUT is the path to the input file (the only mandatory argument).
@@ -52,8 +52,8 @@ One could get almost the same output with only CMD.EXE and ffmpeg's drawtext+til
 But quoting/escaping in ffmpeg is a nightmare.  
 So I here used 'Imagemagick' for better results and flexibility and because I'm lazy ;-)  
 As this is Windows country you have to define the path to the executables (*montage* and *convert*) inside the script, of course.
+Command line usage:
 ~~~
-  Command line usage:
   make-screens.cmd COLUMNS ROWS SIZE INPUT
 
   COLUMNS and ROWS  of the wanted grid.  
