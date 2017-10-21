@@ -45,7 +45,7 @@ goto ENDCOMNT
 # I here changed in comparison to the bash shell script the sequence of        #
 # arguments. INPUT is now the very last argument. There can be no defaults     #
 # now because it's not known if and how many arguments would be given.         #
-# (I could not figure out how to do it. Batch files seem to be quite         #
+# (I could not figure out how to do it. Batch files seem to be quite           #
 # unflexible on this.)                                                         #
 #                                                                              #
 # The reason and imho benefit is that now you can make use of the              #
@@ -66,7 +66,7 @@ goto ENDCOMNT
 # To make galleries without timecode just change the command line in           #
 # the script (there is a commented one).                                       #
 #                                                                              #
-# To change the used font look out for the 'drw' variable.                          #
+# To change the used font look out for the 'drw' variable.                     #
 #                                                                              #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Script starts here ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 :ENDCOMNT
