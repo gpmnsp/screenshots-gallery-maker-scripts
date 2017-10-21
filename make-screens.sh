@@ -30,7 +30,7 @@
 #                                                                              #
 # COLUMNS and ROWS are defaulted to 6x5 grid.                                  #
 #                                                                              #
-# SIZE is the length of the longer side of the output and defaulted to 3000 px.#
+# SIZE is the length of the longer side of the output and defaulted to 2160 px.#
 #                                                                              #
 # OUTPUT is the output file name, default is <INPUT_NAME>_preview.jpg.         #
 #                                                                              #
@@ -80,7 +80,6 @@ MOVIE_NAME=$(basename "$MOVIE")
 if [[ -z $N ]]; then N=30; fi
 if [[ -z $COLS ]]; then COLS=6; fi
 if [[ -z $ROWS ]]; then ROWS=5; fi
-if [[ -z $HEIGHT ]]; then HEIGHT=300; fi
 if [[ -z $SIZE ]]; then SIZE=3000; fi
 if [[ -z $OUTPUT ]]; then OUTPUT="${MOVIE_NAME%.*}_preview.jpg"; fi
 
@@ -164,7 +163,7 @@ else
             echo -e "\n    montage/convert failed!\n"
             exit $ret_val
         else
-            ### get Dimensiona of output
+            ### get dimensions of output
             H=$(ffprobe -show_streams -select_streams v:0 "$OUTPUT" 2>&1 | grep height | head -n1 | sed 's/.*=//')
             W=$(ffprobe -show_streams -select_streams v:0 "$OUTPUT" 2>&1 | grep width | head -n1 | sed 's/.*=//')
             echo -e "    Tile pattern: $TILE"
