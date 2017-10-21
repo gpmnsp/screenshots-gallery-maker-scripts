@@ -28,9 +28,9 @@
 #                                                                              #
 # INPUT is the path to the input file (the only mandatory argument).           #
 #                                                                              #
-# COLUMNS and ROWS are defaulted to 7x6 grid.                                  #
+# COLUMNS and ROWS are defaulted to 6x5 grid.                                  #
 #                                                                              #
-# SIZE is the length of the longer side of the output and defaulted to 2160 px.#
+# SIZE is the length of the longer side of the output and defaulted to 3000 px.#
 #                                                                              #
 # OUTPUT is the output file name, default is <INPUT_NAME>_preview.jpg.         #
 #                                                                              #
@@ -39,7 +39,7 @@
 # The default format is JPG. You have to edit the script for alteration.       #
 #                                                                              #
 # Without arguments except <INPUT> the script makes a screenshot gallery of    #
-# 42 thumbnails in a 6x5 grid and a width of 3000 px, the height will          #
+# 30 thumbnails in a 6x5 grid and a width of 3000 px, the height will          #
 # be calculated accordingly.                                                   #
 #                                                                              #
 #                                                                              #
