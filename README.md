@@ -18,7 +18,7 @@ Bash shell script to make screenshot gallery pages from movies with ffmpeg.
 Uses 'bc' (to properly round integers) and the 'montage' and 'convert' tools from 'Imagemagick' package.  
 One could get almost the same output with only bash and ffmpeg's drawtext+tile+scale filters, though.  
 But quoting/escaping in ffmpeg is a nightmare.  
-So here I used 'Imagemagick' and 'bc' for better results and flexibility and because I'm lazy ;-)
+So here I used 'Imagemagick' and 'bc' for better results and flexibility and because I'm lazy ;-)  
 Command line usage: 
 ~~~
   make-screens.sh INPUT [COLUMNS (6)] [ROWS (5)] [SIZE (3000)] [OUTPUT]
@@ -51,7 +51,7 @@ I got this (portable) 'Imagemagick' version from [here](https://sourceforge.net/
 One could get almost the same output with only CMD.EXE and ffmpeg's drawtext+tile+scale filters, though.  
 But quoting/escaping in ffmpeg is a nightmare.  
 So I here used 'Imagemagick' for better results and flexibility and because I'm lazy ;-)  
-As this is Windows country you have to define the path to the executables (*montage* and *convert*) inside the script, of course.
+As this is Windows country you have to define the path to the executables (*montage* and *convert*) inside the script, of course.  
 Command line usage:
 ~~~
   make-screens.cmd COLUMNS ROWS SIZE INPUT
