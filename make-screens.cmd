@@ -139,11 +139,10 @@ if [%first_part%]==[N/A] goto FALLBACK
 if [%first_part%]==[] goto FALLBACK
 
 REM : otherwise round the value to int
-set second_part=%second_part:~0,1%
-if defined second_part if %second_part% GEQ 5 (
-	set /a DUR=%first_part%+1
-) else (
-	set /a DUR=%first_part% )
+set /a DUR=%first_part% )
+set second_part=%second_part:~0,2%
+if defined second_part if %second_part% GEQ 50 (
+	set /a DUR=%first_part%+1 )
 
 goto CONTIN2
 
