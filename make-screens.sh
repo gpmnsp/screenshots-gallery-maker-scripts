@@ -17,7 +17,7 @@
 # Known limitations: Length of the video. The shortest video I've run with     #
 # success was 30 seconds, though the number of screens was limited (by the     #
 # number of keyframes in the video).                                           #
-# Corrupted container indices will lead to an abort.
+# Corrupted container indices will lead to an abort.                           #
 #                                                                              #
 # One could get almost the same output with only bash and ffmpeg's             #
 # drawtext+tile+scale filter, though.                                          #
@@ -123,13 +123,12 @@ mkdir $TMPDIR
 
 echo -e "(TMPDIR is: $TMPDIR)
 
-  Making screens from: $MOVIE_NAME ...
+  ffmpeg extracting screens from:
+  $MOVIE_NAME ...
 
     Dimension of Movie: $W x $H px
     Fontsize is 7% of $H: $Fs
-    Movie duration: $Z frames / $D seconds @ $FR fps
-
-  ffmpeg extracting screens..."
+    Movie duration: $Z frames / $D seconds @ $FR fps\n"
 
 ### ffmpeg processing options:
  # write the timecode in upper left corner 
