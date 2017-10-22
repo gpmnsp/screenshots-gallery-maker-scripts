@@ -30,7 +30,7 @@
 #                                                                              #
 # COLUMNS and ROWS are defaulted to 6x5 grid.                                  #
 #                                                                              #
-# SIZE is the longer side of the output and defaulted to 2160 px.              #
+# SIZE is the longer side of the output and defaulted to 3000 px.              #
 #                                                                              #
 # OUTPUT is the output file name, default is <INPUT_NAME>_preview.jpg.         #
 #                                                                              #
@@ -63,7 +63,7 @@ if [[ $1 = "" ]]; then
 
  INPUT is the path to the input file
  COLUMNS and ROWS are defaulted to 6x5 grid
- SIZE is the length of the longer side of the output
+ SIZE is the longer side of the output, defaulted to 3000 px
  OUTPUT is the output file name
 
  Example 1: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg
@@ -75,7 +75,6 @@ fi
 MOVIE_NAME=$(basename "$MOVIE")
 
 ### setting defaults
-if [[ -z $N ]]; then N=30; fi
 if [[ -z $COLS ]]; then COLS=6; fi
 if [[ -z $ROWS ]]; then ROWS=5; fi
 if [[ -z $SIZE ]]; then SIZE=3000; fi
@@ -87,7 +86,7 @@ echo -e "\n\n  Out-path: $OUT_FILEPATH \n"
 
 TILE="$COLS"x"$ROWS"                    # to be used in 'montage'
 HEIGHT=$(echo "$SIZE" / "$ROWS" | bc)   # is calculated eventually
-N=$(( COLS*ROWS ))
+N=$(( COLS*ROWS ))                      # number of images
 
 ### ffmpeg/ffprobe input options
 hb="-hide_banner"                                       # supress the initial ffmpeg banner
@@ -110,7 +109,8 @@ Z=$(ffprobe $hb -show_streams -select_streams v:0 "$MOVIE" 2>&1 | grep nb_frames
 H=$(ffprobe -show_streams -select_streams v:0 "$MOVIE" 2>&1 | grep height | head -n1 | sed 's/.*=//')
 W=$(ffprobe -show_streams -select_streams v:0 "$MOVIE" 2>&1 | grep width | head -n1 | sed 's/.*=//')
 
-### set fontsize as 7% of height of input (px) to get reasonable text size
+### set fontsize and shadow proportional to height of input to get reasonable text size
+### ~ 7% here, you may change this
 Fs=$(echo "$H * 7 / 100" | bc)
 Sh=$(echo "$H / 180" | bc)
 
@@ -127,7 +127,7 @@ echo -e "(TMPDIR is: $TMPDIR)
   $MOVIE_NAME ...
 
     Dimension of Movie: $W x $H px
-    Fontsize is 7% of $H: $Fs
+    Fontsize is 7% of $H: $Fs  Shadow: $Sh
     Movie duration: $Z frames / $D seconds @ $FR fps\n"
 
 ### ffmpeg processing options:
@@ -139,7 +139,8 @@ po="select=eq(n\,0)+gte(mod(t\,$Iv)\,$Iv/2)*gte(t-prev_selected_t\,$Iv/2),trim=1
 ### ffmpeg command line:
 ffmpeg $io $hb -ss 0 -i "$MOVIE" -an -sn -vf "$drw","$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
 
-### same without time code - uncomment this and comment the above one
+### same without time code
+### Uncomment this and comment the above one (just omits the drawtext filter)
 #ffmpeg $io $hb -ss 20 -i "$MOVIE" -an -sn -vf "$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
 
 ret_val=$?
