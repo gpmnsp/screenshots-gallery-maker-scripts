@@ -6,16 +6,17 @@ goto ENDCOMNT
 # pages from movies with ffmpeg (must be in PATH).                             #
 #                                                                              #
 # Uses the 'montage' and 'convert' tools from 'Imagemagick-portable'           #
-# package, so these must be installed.                                         #
+# package, so these must be installed either.                                  #
 #                                                                              #
 # Works pretty fast. The approach is to divide the file into N intervals,      #
 # one for each picture and pick the first keyframe after the midpoint of       #
 # each interval. This is done quickly with a single run of ffmpeg, given       #
 # the duration of each interval.                                               #
 #                                                                              #
-# Known limitations: Length of the video. The shortest video I've run with     #
+# Known limitations: Length of the video. The shortest video I have run with   #
 # success was 30 seconds, though the number of screens was limited             #
 # (by the number of keyframes in the video).                                   #
+# Corrupted container indices will led to an abort.                            #
 #                                                                              #
 # Instead of ffmpeg's drawtext+tile+scale filters I here used 'Imagemagick'    #
 # for better results and flexibility.                                          #
@@ -25,7 +26,7 @@ goto ENDCOMNT
 #                                                                              #
 # There is no need to install anything. Just un-zip the file and you're done.  #
 #                                                                              #
-# As this is Windows-Country you have to define the path to the executables    #
+# As this is Windows country you have to define the path to the executables    #
 # (montage and convert) inside the script, of course.                          #
 #                                                                              #
 # Usage (to run on command line):                                              #
@@ -42,25 +43,21 @@ goto ENDCOMNT
 #                                                                              # 
 # Example: make-screens.cmd 5 6 1440 video.mp4                                 #
 #                                                                              #
-# I here changed in comparison to the bash shell script the sequence of        #
-# arguments. INPUT is now the very last argument. There can be no defaults     #
-# now because it's not known if and how many arguments would be given.         #
-# (I could not figure out how to do it. Batch files seem to be quite           #
-# unflexible on this.)                                                         #
+# Compared to the bash shell script, I have changed the order of the           #
+# arguments here. INPUT is now the ultimate argument. There can be no          #
+# default values because it is not known whether and how many arguments        #
+# are given. (I could not figure out how to do it. Batch files seem to         #
+# be quite inflexible.)                                                        #
 #                                                                              #
 # The reason and imho benefit is that now you can make use of the              #
 # drag'n'drop feature of Windows:                                              #
-#                                                                              #
 # Put a link to the batch file on your desktop, go to its properties and       #
 # append columns, rows and size to the command like so:                        #
-#                                                                              #
 # "Drive:\Path\to\make-screens.cmd" 5 6 1440                                   #
-#                                                                              #
 # and (optionally) point to a target directory of your choice.                 #
+# Just leave out the INPUT argument, the dropped file will become that.        #
 #                                                                              #
-# Just leave out the INPUT argument, this will become the dropped file.        #
-#                                                                              #
-# Then you can drag'n'drop video files onto this link and get your             #
+# Now you can drag'n'drop video files onto this link and get your              #
 # screenshots gallery made in the target directory.                            #
 #                                                                              #
 # To make galleries without timecode just change the command line in           #
@@ -82,8 +79,8 @@ echo   *                                                                        
 echo   *  ffmpeg must be in the %%PATH%%, the path to 'montage' and 'convert'     *
 echo   *  must be assigned in the script itself.                                *
 echo   *                                                                        *
-echo   *  Takes as input columns, rows and size ^(px^) of the screensheet         *
-echo   *  and a video file and makes a screenshot gallery very fast.            *
+echo   *  Takes columns, rows and size ^(px^) of the screenshot gallery           *
+echo   *  and a video file as args and makes a screenshot gallery very fast.    *
 echo   *                                                                        *
 echo   *  Usage: make-screens.cmd COLUMNS ROWS SIZE INPUT                       *
 echo   *                                                                        *
@@ -92,7 +89,7 @@ echo   *                                                                        
 echo   *  SIZE is the longer side of the output ^(px^).                           *
 echo   *                                                                        *
 echo   *  INPUT is the path to the input file                                   *
-echo   *  ^(REMEMBER TO PUT PATH WITH SPACES IN QUOTES!^)                         *
+echo   *  ^(REMEMBER TO PUT PATH WITH BLANKS IN QUOTES!^)                         *
 echo   *                                                                        *
 echo   *  ALL arguments are mandatory.                                          *
 echo   *                                                                        *
@@ -121,7 +118,6 @@ set MOVIE_NAME="%~n4"
 mkdir %TMPDIR%
 
 REM : ffmpeg/ffprobe input options:
-
 REM : prevent the initial ffmpeg banner and stdout (actually it is stderr)
 set hb=-hide_banner -loglevel panic
 
@@ -130,7 +126,7 @@ set io=-skip_frame nokey -discard nokey
 
 REM : get duration (seconds) of input:
 for /F "tokens=1,2 delims=." %%a in ('ffprobe -i %MOVIE% -show_entries format^=duration -v quiet -of csv^=^"p^=0^"') do (
-REM : split the output to further processing
+	REM : split the output to further processing
 	set first_part=%%a
 	set second_part=%%b )
 
@@ -173,7 +169,6 @@ set /a DUR=%hour%*60*60+%minute%*60+%second%
 set decsec=%decsec:~0,2%
 if %decsec% GEQ 50 (
     set /a DUR=%DUR%+1 )
-
 
 :CONTIN2
 REM : get frame rate (tbr) of input
@@ -221,7 +216,7 @@ echo.
 REM : ffmpeg processing options:
 
 REM :  set params to write timecode and ifr number in upper left corner
-REM :  (if you want, change the used font here)
+REM :  (if you want, change the used font and color here)
 set drw="drawtext=text='%%{pts\:hms} - ifr %%{n}':r=%TBR%:fontfile='C\:\\Windows\\Fonts\\ARIALBD.TTF':shadowx=%sh%:shadowy=%sh%:fontcolor=lightyellow:fontsize=%fs%:x=12:y=8"
 
 REM :  set params to select frames according to interval
@@ -231,14 +226,14 @@ REM : ffmpeg command line with timecode
 ffmpeg %hb% %io% -i %MOVIE% -an -sn -vf %drw%,%po%,trim=1 -vsync 0 -vframes %N% %TMPDIR%\thumb%%03d.jpg
 
 REM : ffmpeg command line without time code
-REM : uncomment this and comment the above one (just skips the drawtext options)
+REM : uncomment this and comment the above one (just omits the drawtext options)
 REM ffmpeg %hb% %io% -i %MOVIE% -an -sn -vf %po%,trim=1 -vsync 0 -vframes %N% %TMPDIR%\thumb%%03d.jpg
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo ffmpeg: Image extraction failed!
     echo.
-    goto END
+    goto ERROR1
 ) else (
     echo   Total number of images: %N%
     echo.
@@ -258,10 +253,7 @@ if %ERRORLEVEL% NEQ 0 (
     echo.
     echo   Something went wrong, Montage/Convert failed! Try again.
     echo.
-    rmdir /s /q %TMPDIR%
-    echo  ^(TMPDIR removed^)
-    goto ERROR1
-)
+    goto ERROR1 )
 
 REM : get dimensions of output frames
 for /F "tokens=2 delims==" %%a in ('ffprobe %hb% -show_streams -select_streams v:0 "%OUTPUT%" ^| Findstr height') do (
@@ -269,7 +261,6 @@ for /F "tokens=2 delims==" %%a in ('ffprobe %hb% -show_streams -select_streams v
 
 for /F "tokens=2 delims==" %%a in ('ffprobe %hb% -show_streams -select_streams v:0 "%OUTPUT%" ^| Findstr width') do (
     set /a WIDTH=%%a )
-
 
 echo   Tile pattern: %TILE%
 echo   Screenshot gallery with %WIDTH%x%Height% px written to:
