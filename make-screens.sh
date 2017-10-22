@@ -17,12 +17,12 @@
 # Known limitations: Length of the video. The shortest video I've run with     #
 # success was 30 seconds, though the number of screens was limited (by the     #
 # number of keyframes in the video).                                           #
+# Corrupted container indices will lead to an abort.
 #                                                                              #
 # One could get almost the same output with only bash and ffmpeg's             #
 # drawtext+tile+scale filter, though.                                          #
 # But quoting/escaping in ffmpeg is a nightmare.                               #
 # So here I used 'Imagemagick' and 'bc' for better results and flexibility.    #
-#                                                                              #
 #                                                                              #
 # Usage: make-screens.sh INPUT [COLUMNS (6)] [ROWS (5)] [SIZE (3000)] [OUTPUT] #
 #                                                                              #
@@ -30,7 +30,7 @@
 #                                                                              #
 # COLUMNS and ROWS are defaulted to 6x5 grid.                                  #
 #                                                                              #
-# SIZE is the length of the longer side of the output and defaulted to 2160 px.#
+# SIZE is the longer side of the output and defaulted to 2160 px.              #
 #                                                                              #
 # OUTPUT is the output file name, default is <INPUT_NAME>_preview.jpg.         #
 #                                                                              #
@@ -42,10 +42,8 @@
 # 30 thumbnails in a 6x5 grid and a width of 3000 px, the height will          #
 # be calculated accordingly.                                                   #
 #                                                                              #
-#                                                                              #
 # To make screenshot pages without timecode change the command line in         #
 # the script (there is a commented one).                                       #
-# I plan to add another argument to chose this per command line.               #
 #                                                                              #
 ################################################################################
 # 
