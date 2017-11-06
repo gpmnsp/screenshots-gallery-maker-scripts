@@ -7,8 +7,11 @@
   - Linux: additionally 'bc'  
   - Windows: 'ffmpeg.exe' must be in the PATH
 - __Pretty fast.__ The approach is to divide the file into *N* intervals, one for each picture, and pick the first keyframe after the midpoint of each interval. This is done quickly with a single run of ffmpeg, given the duration of each interval. This way ffmpeg has *not* to decode *every* single frame which gives us the speed.  
-- __Fonts__: To change the font of the text you may edit the script (Variable 'drw').
+- __Fonts__: To change the font of the text you may edit the script (in variable *'drw'*).
 - __Known limitations:__ Length of the video. The shortest video I have run with success was 30 seconds, though the number of screens was limited (by the number of keyframes).  
+- __Motivation:__ The Screenshots plugin in the ruTorrent installation on my server did not work. The screenshots did not work in the Filemanager plugin either. I did not find a solution and tried to write my own script for it. I got my first idea from [this post](https://superuser.com/questions/538112/meaningful-thumbnails-for-a-video-using-ffmpeg) and refined my script after [this post](https://superuser.com/questions/1248665/how-to-increase-file-numbers-in-a-for-loop-ffmpeg).  
+However, I've never written a shell script before, and I'm a little proud that I made it.  
+After that, I thought it would be fun to have something similar on my home computer on Windows and also created the batch file.
 
 ---  
 
