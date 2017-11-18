@@ -275,6 +275,8 @@ echo.
 echo   "%~4",
 echo.
 echo  can't go on!
+echo.
+echo ^(TMPDIR %TMPDIR% NOT removed^)
 :ERROR1
 echo.
 rmdir /s /q %TMPDIR%
