@@ -79,6 +79,6 @@ Put a link to the batch file on your desktop. Go to its properties and append co
 To make galleries without timecode just change the command line in the script (there is a commented one).
 
 ---
-Example of screenshot gallery page
+Example of screenshot gallery page (Can you name the movie?)
 
 ![Example of screenshot gallery page](https://user-images.githubusercontent.com/23389748/31731887-cd9bf856-b436-11e7-90b1-efb2f713a074.jpg)
