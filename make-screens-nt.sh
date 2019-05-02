@@ -146,9 +146,7 @@ echo -e "(TMPDIR is: $TMPDIR)
   ffmpeg extracting screens..."
 
 ### ffmpeg processing options:
- # write the timecode in upper left corner 
-drw="drawtext=text='%{pts\:hms}' - ifr %{n}:r=$FR:x=12:y=8:shadowx=$Sh:shadowy=$Sh:fontfile=/usr/share/fonts/truetype/arlrdbd.ttf:fontcolor=lightyellow:fontsize=$Fs"
- # select frames according to interval
+# select frames according to interval
 po="select=eq(n\,0)+gte(mod(t\,$Iv)\,$Iv/2)*gte(t-prev_selected_t\,$Iv/2),trim=1"
 
 ### ffmpeg command line  - without time code
