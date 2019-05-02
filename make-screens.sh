@@ -63,7 +63,7 @@ if [[ $1 = "" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]];then
  INPUT is the path to the input file
  COLUMNS and ROWS are defaulted to 6x5 grid
  SIZE is the length of the longer side of the output
- OUTPUT is the output file name, default is <INPUT_NAME>_ntprev.jpg.
+ OUTPUT is the output file name, default is <INPUT_NAME>_prev.jpg.
 
  Example 1: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg
  Example 2: make-screens.sh movie.avi 2\n\n"
@@ -75,7 +75,7 @@ echo -e "\n$(basename $0):\n
  INPUT is the path to the input file (the only mandatory argument).
  COLUMNS and ROWS are defaulted to 6x5 grid.
  SIZE is the length of the longer side of the output, default 2900 px.
- OUTPUT is the output file name, default is <INPUT_NAME>_ntprev.jpg.
+ OUTPUT is the output file name, default is <INPUT_NAME>_prev.jpg.
  > Example: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg <
  The default image format is JPG. You must edit the script for alteration.
  Without arguments, except <INPUT>, the script makes a screenshot gallery of
