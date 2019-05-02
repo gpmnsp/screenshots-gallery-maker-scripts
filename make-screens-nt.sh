@@ -1,7 +1,9 @@
 #!/bin/bash 
 #
 ################################################################################
-# make-screens.sh
+#
+# make-screens-nt.sh
+# same as make-screens.sh, except no time code writing in upper left corner
 #
 # Shell script to make screenshot pages from movies with 'ffmpeg'.
 #
@@ -22,8 +24,8 @@
 # But quoting/escaping in ffmpeg is a nightmare.
 # So here I used 'Imagemagick' and 'bc' for better results and flexibility.
 #
-#
-# Usage: make-screens.sh INPUT [COLUMNS (6)] [ROWS (5)] [SIZE (2900)] [OUTPUT]
+# Usage:
+# make-screens-nt.sh INPUT [COLUMNS (6)] [ROWS (5)] [SIZE (2900)] [OUTPUT]
 #
 # INPUT is the path to the input file (the only mandatory argument).
 #
@@ -31,17 +33,15 @@
 #
 # SIZE is the length of the longer side of the output and defaulted to 2900 px.
 #
-# OUTPUT is the output file name, default is <INPUT_NAME>_prev.jpg.
+# OUTPUT is the output file name, default is <INPUT_NAME>_ntprev.jpg.
 #
-# Example: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg
+# Example: make-screens-nt.sh video.mp4 5 6 1440 thumbnails.jpg
 #
-# The default format is JPG. You have to edit the script for alteration
+# The default format is JPG. You have to edit the script for alteration.
 #
 # Without arguments except <INPUT> the script makes a screenshot gallery of
 # 30 thumbnails in a 6x5 grid and a width of 2900 px, the height will
 # be calculated accordingly.
-#
-# To make screenshot pages without timecode use: make-screen-nt.sh
 #
 ################################################################################
 #
@@ -54,7 +54,7 @@ MOVIE="$1"  # Input
 COLS=$2     # Columns
 ROWS=$3     # Rows
 SIZE=$4     # Length of the longer side of the screenshot page
-OUTPUT=$5   # Output file name - defaults to: Input_prev.jpg
+OUTPUT=$5   # Output file name - defaults to: Input_preview.jpg
 
 if [[ $1 = "" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]];then
     echo -e "
@@ -65,8 +65,8 @@ if [[ $1 = "" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]];then
  SIZE is the length of the longer side of the output
  OUTPUT is the output file name, default is <INPUT_NAME>_ntprev.jpg.
 
- Example 1: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg
- Example 2: make-screens.sh movie.avi 2\n\n"
+ Example 1: make-screens-nt.sh video.mp4 5 6 1440 thumbnails.jpg
+ Example 2: make-screens-nt.sh movie.avi 2\n\n"
  exit 1
 fi
 
@@ -76,11 +76,12 @@ echo -e "\n$(basename $0):\n
  COLUMNS and ROWS are defaulted to 6x5 grid.
  SIZE is the length of the longer side of the output, default 2900 px.
  OUTPUT is the output file name, default is <INPUT_NAME>_ntprev.jpg.
- > Example: make-screens.sh video.mp4 5 6 1440 thumbnails.jpg <
+ > Example: make-screens-nt.sh video.mp4 5 6 1440 thumbnails.jpg <
  The default image format is JPG. You must edit the script for alteration.
  Without arguments, except <INPUT>, the script makes a screenshot gallery of
  30 thumbnails in a 6x5 grid and a width of 2900 px, the height will
  be calculated accordingly.\n\n"
+
 
 ### get input file name without path and extension
 MOVIE_NAME=$(basename "$MOVIE")
@@ -90,7 +91,8 @@ MOVIE_NAME=$(basename "$MOVIE")
 if [[ -z $COLS ]]; then COLS=6; fi
 if [[ -z $ROWS ]]; then ROWS=5; fi
 if [[ -z $SIZE ]]; then SIZE=2900; fi
-if [[ -z $OUTPUT ]]; then OUTPUT="${MOVIE_NAME%.*}_prev.jpg"; fi
+if [[ -z $OUTPUT ]]; then OUTPUT="${MOVIE_NAME%.*}_ntprev.jpg"; fi
+if [[ -z $TIME ]]; then TIME=1; fi
 
 OUT_DIR=$(pwd)
 OUT_FILEPATH="$OUT_DIR/$OUTPUT"
@@ -150,10 +152,10 @@ drw="drawtext=text='%{pts\:hms}' - ifr %{n}:r=$FR:x=12:y=8:shadowx=$Sh:shadowy=$
 po="select=eq(n\,0)+gte(mod(t\,$Iv)\,$Iv/2)*gte(t-prev_selected_t\,$Iv/2),trim=1"
 
 ### ffmpeg command line - with time code:
- ffmpeg $io $hb -ss 0 -i "$MOVIE" -an -sn -vf "$drw","$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
+# ffmpeg $io $hb -ss 0 -i "$MOVIE" -an -sn -vf "$drw","$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
 
 ### ffmpeg command line  - without time code; uncomment this and comment the above one
- #ffmpeg $io $hb -ss 20 -i "$MOVIE" -an -sn -vf "$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
+ffmpeg $io $hb -ss 20 -i "$MOVIE" -an -sn -vf "$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
 
 ret_val=$?
 
