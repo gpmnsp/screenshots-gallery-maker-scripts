@@ -92,7 +92,6 @@ if [[ -z $COLS ]]; then COLS=6; fi
 if [[ -z $ROWS ]]; then ROWS=5; fi
 if [[ -z $SIZE ]]; then SIZE=2900; fi
 if [[ -z $OUTPUT ]]; then OUTPUT="${MOVIE_NAME%.*}_ntprev.jpg"; fi
-if [[ -z $TIME ]]; then TIME=1; fi
 
 OUT_DIR=$(pwd)
 OUT_FILEPATH="$OUT_DIR/$OUTPUT"
