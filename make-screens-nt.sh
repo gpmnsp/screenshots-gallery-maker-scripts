@@ -151,10 +151,7 @@ drw="drawtext=text='%{pts\:hms}' - ifr %{n}:r=$FR:x=12:y=8:shadowx=$Sh:shadowy=$
  # select frames according to interval
 po="select=eq(n\,0)+gte(mod(t\,$Iv)\,$Iv/2)*gte(t-prev_selected_t\,$Iv/2),trim=1"
 
-### ffmpeg command line - with time code:
-# ffmpeg $io $hb -ss 0 -i "$MOVIE" -an -sn -vf "$drw","$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
-
-### ffmpeg command line  - without time code; uncomment this and comment the above one
+### ffmpeg command line  - without time code
 ffmpeg $io $hb -ss 20 -i "$MOVIE" -an -sn -vf "$po" -vsync 0 -vframes $N ${TMPDIR}thumb%03d.jpg
 
 ret_val=$?
